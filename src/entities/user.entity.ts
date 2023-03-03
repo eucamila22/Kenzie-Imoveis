@@ -22,7 +22,7 @@ class User {
     email: string
 
     @Column({ type: 'boolean', default: false })
-    admin: boolean | undefined
+    admin: boolean
 
     @Column({ type: 'varchar', length: 120 })
     password: string

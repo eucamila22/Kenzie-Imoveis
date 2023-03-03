@@ -16,6 +16,8 @@ const returnUserSchema = userSchema
     })
     .omit({ password: true })
 
+const userUpdateSchema = userSchema.partial().omit({admin: true})
+
 const returnMultipleUserSchema = returnUserSchema.array()
 
-export { userSchema, returnUserSchema, returnMultipleUserSchema }
+export { userSchema, returnUserSchema, returnMultipleUserSchema, userUpdateSchema }

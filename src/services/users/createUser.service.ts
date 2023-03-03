@@ -1,9 +1,9 @@
 import { AppDataSource } from '../../data-source'
 import { User } from '../../entities/user.entity'
 import { returnUserSchema } from '../../schemas/user.schema'
-import { IUser, IUserRepo } from '../../interfaces/user.interface'
+import { IUser, IUserRepo, IUserReturn } from '../../interfaces/user.interface'
 
-const createUserService = async (userData: IUser): Promise<any> => {
+const createUserService = async (userData: IUser): Promise<IUserReturn> => {
     const userRepository: IUserRepo = AppDataSource.getRepository(User)
 
     const user: User = userRepository.create(userData)

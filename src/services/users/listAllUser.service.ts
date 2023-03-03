@@ -6,12 +6,7 @@ import { AppDataSource } from '../../data-source'
 const listAllUserService = async (): Promise<IUsersReturn> => {
     const userRepository: IUserRepo = AppDataSource.getRepository(User)
 
-    const findUsers: Array<User> = await userRepository.find({
-        // relations: {
-        //     address: true,
-        // },
-        // withDeleted: true, // opção usada apenas se desejar listar usuários deletados com softRemove
-    })
+    const findUsers: Array<User> = await userRepository.find()
 
     const users = returnMultipleUserSchema.parse(findUsers)
 
