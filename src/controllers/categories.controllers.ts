@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { ICategory } from '../interfaces/categories.interface'
 import createCategoryService from '../services/categories/createCategory.service'
 import listAllCategoriesService from '../services/categories/listAllCategories.service'
+import listRealEstatesByCategoryService from '../services/categories/listRealEstatesByCategory.service'
 
 const createCategoryController = async (req: Request, res: Response) => {
     const categoryData: ICategory = req.body
@@ -18,4 +19,10 @@ const listAllCategoriesController = async (req: Request, res: Response) => {
     return res.json(categories)
 }
 
-export { createCategoryController, listAllCategoriesController }
+const listRealEstatesByCategoryController = async (req: Request, res: Response) => {
+    const realEstateByCategory = await listRealEstatesByCategoryService()
+
+    return res.json(realEstateByCategory)
+}
+
+export { createCategoryController, listAllCategoriesController, listRealEstatesByCategoryController }

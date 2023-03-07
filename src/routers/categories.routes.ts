@@ -2,6 +2,7 @@ import { Router } from 'express'
 import {
     createCategoryController,
     listAllCategoriesController,
+    listRealEstatesByCategoryController,
 } from '../controllers/categories.controllers'
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware'
 import ensureIsAdminMiddleware from '../middlewares/ensureIsAdmin.middleware'
@@ -21,5 +22,7 @@ categoriesRoutes.post(
 )
 
 categoriesRoutes.get('', listAllCategoriesController)
+
+categoriesRoutes.get('/:id/realEstate', listRealEstatesByCategoryController)
 
 export default categoriesRoutes
