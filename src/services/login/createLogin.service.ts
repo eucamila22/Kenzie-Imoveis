@@ -9,7 +9,6 @@ import { IUserRepo } from '../../interfaces/user.interface'
 
 const createLoginService = async (loginData: ILogin): Promise<string> => {
     const userRepository: IUserRepo = AppDataSource.getRepository(User)
-
     const user: User | null = await userRepository.findOneBy({
         email: loginData.email,
     })

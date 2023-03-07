@@ -9,18 +9,14 @@ const updateUserService = async (
     idUser: number
 ): Promise<IUserReturn> => {
     const userRepository: IUserRepo = AppDataSource.getRepository(User)
-
     const oldUserData = await userRepository.findOneBy({
         id: idUser,
     })
-
     const user = userRepository.create({
         ...oldUserData,
         ...newUserData,
     })
-
     await userRepository.save(user)
-
     const updatedUser = returnUserSchema.parse(user)
 
     return updatedUser

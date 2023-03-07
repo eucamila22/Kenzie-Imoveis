@@ -6,7 +6,6 @@ const listRealEstatesByCategoryService = async (
     categoryId: number
 ): Promise<ICategoryRealEstate> => {
     const categoryRepository = AppDataSource.getRepository(Category)
-
     const realEstateCategory: ICategoryRealEstate = await categoryRepository.find({
         where: {
             id: categoryId,

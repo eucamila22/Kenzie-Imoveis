@@ -4,7 +4,6 @@ import { IUserRepo } from '../../interfaces/user.interface'
 
 const deleteUserService = async (idUser: number): Promise<void> => {
     const userRepository: IUserRepo = AppDataSource.getRepository(User)
-
     const user = await userRepository.findOne({
         where: {
             id: idUser,

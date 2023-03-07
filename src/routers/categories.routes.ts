@@ -4,7 +4,7 @@ import {
     listAllCategoriesController,
     listRealEstatesByCategoryController,
 } from '../controllers/categories.controllers'
-import ensureMovieExistsMiddleware from '../middlewares/ensureCategoryIdExists.middleware'
+import ensureCategoryExistsMiddleware from '../middlewares/ensureCategoryIdExists.middleware'
 import ensureDataIsValidMiddleware from '../middlewares/ensureDataIsValid.middleware'
 import ensureIsAdminMiddleware from '../middlewares/ensureIsAdmin.middleware'
 import ensureNameExistsMiddleware from '../middlewares/ensureNameExists.middleware'
@@ -24,6 +24,10 @@ categoriesRoutes.post(
 
 categoriesRoutes.get('', listAllCategoriesController)
 
-categoriesRoutes.get('/:id/realEstate', ensureMovieExistsMiddleware, listRealEstatesByCategoryController)
+categoriesRoutes.get(
+    '/:id/realEstate',
+    ensureCategoryExistsMiddleware,
+    listRealEstatesByCategoryController
+)
 
 export default categoriesRoutes

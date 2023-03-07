@@ -7,7 +7,6 @@ import updateUserService from '../services/users/updateUser.service'
 
 const createUserController = async (req: Request, res: Response) => {
     const userData: IUser = req.body
-
     const newUser = await createUserService(userData)
 
     return res.status(201).json(newUser)
@@ -22,7 +21,6 @@ const listAllUserController = async (req: Request, res: Response) => {
 const updateUserController = async (req: Request, res: Response) => {
     const userData: IUserUpdate = req.body
     const idUser = parseInt(req.params.id)
-
     const updatedUser = await updateUserService(userData, idUser)
 
     return res.json(updatedUser)
@@ -30,7 +28,6 @@ const updateUserController = async (req: Request, res: Response) => {
 
 const deleteUserController = async (req: Request, res: Response) => {
     const idUser = parseInt(req.params.id)
-
     await deleteUserService(idUser)
 
     return res.status(204).send()

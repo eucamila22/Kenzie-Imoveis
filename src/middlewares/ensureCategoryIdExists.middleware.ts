@@ -4,7 +4,7 @@ import { Category } from '../entities'
 import { AppError } from '../errors'
 import { ICategoryRepo } from '../interfaces/categories.interface'
 
-const ensureMovieExistsMiddleware = async (
+const ensureCategoryExistsMiddleware = async (
     req: Request,
     resp: Response,
     next: NextFunction
@@ -23,4 +23,4 @@ const ensureMovieExistsMiddleware = async (
     return next()
 }
 
-export default ensureMovieExistsMiddleware
+export default ensureCategoryExistsMiddleware

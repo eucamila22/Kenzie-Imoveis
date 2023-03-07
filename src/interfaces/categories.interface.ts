@@ -10,6 +10,7 @@ import {
 type ICategory = z.infer<typeof categorySchema>
 type IReturnCategory = z.infer<typeof returnCategorySchema>
 type IReturnAllCategory = z.infer<typeof returnAllCategory>
+
 type ICategoryRepo = Repository<Category>
 type ICategoryRealEstate = Array<Category>
 
