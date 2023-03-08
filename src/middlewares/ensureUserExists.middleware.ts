@@ -10,10 +10,9 @@ const ensureUserExistsMiddleware = async (
     next: NextFunction
 ): Promise<void> => {
     const userRepository: IUserRepo = AppDataSource.getRepository(User)
-
     const findUser = await userRepository.findOne({
         where: {
-            id: parseInt(req.params.id),
+            id: parseInt(req.params.id) || parseInt(req.user.id),
         },
     })
 

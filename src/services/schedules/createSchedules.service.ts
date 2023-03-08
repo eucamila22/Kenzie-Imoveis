@@ -2,14 +2,10 @@ import { AppDataSource } from '../../data-source'
 import { RealEstate, Schedule, User } from '../../entities'
 import { AppError } from '../../errors'
 import { IRepoRealEstate } from '../../interfaces/realEstate.interface'
-import { IcreateSchedule, IReturnSchedule } from '../../interfaces/schedules.interface'
+import { IcreateSchedule } from '../../interfaces/schedules.interface'
 import { IUserRepo } from '../../interfaces/user.interface'
-import { returnScheduleSchema } from '../../schemas/schedules.schema'
 
-export const createScheduleService = async (
-    scheduleData: IcreateSchedule,
-    userId: number
-): Promise<IReturnSchedule> => {
+export const createScheduleService = async (scheduleData: IcreateSchedule, userId: number) => {
     const { date, hour, realEstateId } = scheduleData
 
     const realEstateRepository: IRepoRealEstate = AppDataSource.getRepository(RealEstate)
@@ -32,19 +28,18 @@ export const createScheduleService = async (
         .getOne()
 
     if (existingSchedule) {
-        throw new AppError('Schedule to this real estate at this date and time already exists')
+        throw new AppError('Schedule to this real estate at this date and time already exists', 409)
     }
 
-    const scheduledDate = new Date(`${date}T${hour}:00`)
+    const scheduledDate = new Date(date)
     const dayOfWeek = scheduledDate.getDay()
-    const hourOfDay = scheduledDate.getHours()
 
-    if (dayOfWeek === 0 || dayOfWeek === 6) {
-        throw new Error('Invalid date, work days are monday to friday')
+    if (dayOfWeek < 1 || dayOfWeek > 5) {
+        throw new AppError('Invalid date, work days are monday to friday', 400)
     }
 
-    if (hourOfDay < 8 || hourOfDay >= 18) {
-        throw new Error('Invalid hour, available times are 8AM to 18PM')
+    if (parseInt(hour[0] + hour[1]) < 8 || parseInt(hour[0] + hour[1]) > 18) {
+        throw new AppError('Invalid hour, available times are 8AM to 18PM', 400)
     }
 
     const userExistingSchedule = await AppDataSource.getRepository(Schedule)
@@ -55,7 +50,10 @@ export const createScheduleService = async (
         .getOne()
 
     if (userExistingSchedule) {
-        throw new Error('User schedule to this real estate at this date and time already exists')
+        throw new AppError(
+            'User schedule to this real estate at this date and time already exists',
+            409
+        )
     }
 
     const userRepository: IUserRepo = AppDataSource.getRepository(User)
@@ -71,8 +69,4 @@ export const createScheduleService = async (
     })
 
     await scheduleRepository.save(schedule)
-
-    const newSchedule = returnScheduleSchema.parse(schedule)
-
-    return newSchedule
 }

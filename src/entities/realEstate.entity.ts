@@ -7,11 +7,13 @@ import {
     ManyToOne,
     OneToOne,
     JoinColumn,
+    OneToMany,
 } from 'typeorm'
 import { Address } from './address.entity'
 import { Category } from './category.entity'
+import { Schedule } from './schedule.entity'
 
-@Entity('real_estates')
+@Entity('real_estate')
 class RealEstate {
     @PrimaryGeneratedColumn('increment')
     id: number
@@ -38,6 +40,9 @@ class RealEstate {
     @ManyToOne(() => Category, (category) => category.realEstate)
     @JoinColumn()
     category: Category
+
+    @OneToMany(() => Schedule, (schedule) => schedule.realEstate)
+    schedules: Schedule[]
 }
 
 export { RealEstate }

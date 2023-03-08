@@ -1,10 +1,8 @@
 import { AppDataSource } from '../../data-source'
-import { RealEstate, Schedule } from '../../entities'
+import { RealEstate } from '../../entities'
 import { AppError } from '../../errors'
-import { IAllSchedules } from '../../interfaces/schedules.interface'
 
-const listAllSchedulesService = async (id: number): Promise<IAllSchedules> => {
-    const scheduleRepository = AppDataSource.getRepository(Schedule)
+const listAllSchedulesService = async (id: number): Promise<RealEstate> => {
     const realEstateRepository = AppDataSource.getRepository(RealEstate)
     const findRealEstate = await realEstateRepository.findOne({
         where: {
@@ -16,16 +14,16 @@ const listAllSchedulesService = async (id: number): Promise<IAllSchedules> => {
         throw new AppError('RealEstate not found', 404)
     }
 
-    const findScheduleRealEstate: IAllSchedules = await scheduleRepository.find({
-        where: {
-            id: id,
-        },
-        relations: {
-            realEstate: true,
-        },
-    })
-    
-    return findScheduleRealEstate
-}
+    const scheduleRealEstate = await realEstateRepository
+        .createQueryBuilder('realEstate')
+        .select(['realEstate', 'address', 'categories', 'schedule', 'users'])
+        .innerJoin('realEstate.address', 'address')
+        .innerJoin('realEstate.category', 'categories')
+        .innerJoin('realEstate.schedules', 'schedule')
+        .innerJoin('schedule.user', 'users')
+        .where('realEstate.id = :id', { id })
+        .getOne()
 
+    return scheduleRealEstate!
+}
 export default listAllSchedulesService

@@ -7,14 +7,14 @@ const createScheduleController = async (req: Request, res: Response) => {
     const userId = parseInt(req.user.id)
     const schedule = await createScheduleService(scheduleData, userId)
 
-    return res.status(201).json(schedule)
+    return res.status(201).json({ message: 'Schedule created' })
 }
 
 const listAllSchedulesController = async (req: Request, res: Response) => {
     const idSchedule: number = parseInt(req.params.id)
     const scheduleRealEstate = await listAllSchedulesService(idSchedule)
 
-    return res.json(...scheduleRealEstate)
+    return res.json(scheduleRealEstate)
 }
 
 export { createScheduleController, listAllSchedulesController }
